@@ -1,0 +1,47 @@
+.button {
+	background-color: rgb(255, 255, 255);
+	border-radius: 8px;
+	margin: 10px;
+	box-shadow: 5px 5px 10px 3px rgb(235, 235, 235);
+	padding-top: 13px;
+	padding-bottom: 13px;
+	padding-left: 30px;
+	padding-right: 30px;
+	width: 4rem;
+	text-align: center;
+}
+
+.card {
+	background-color: rgb(255, 255, 255);
+	border-radius: 15px;
+	margin: 10px;
+	box-shadow: 5px 5px 10px 3px rgb(235, 235, 235);
+	padding: 25px;
+	text-align: start;
+}
+
+.input {
+	padding-top: 8px;
+	padding-bottom: 8px;
+	background: none;
+	font-size: 1rem;
+	width: 12rem;
+	border: none;
+	border-bottom: 2px solid rgb(100, 100, 100);
+	transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+}
+
+.input:focus {
+	border-color: lightseagreen;
+	width: 13rem;
+	outline: none;
+	transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+}
