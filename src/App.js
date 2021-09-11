@@ -19,7 +19,8 @@ const loading = (
 const Home = React.lazy(() => import("./View/home/Home"));
 const Music = React.lazy(() => import("./View/music/Music"));
 const Movie = React.lazy(() => import("./View/movie/Movie"));
-const notFound = React.lazy(() => import("./View/notFound.js"));
+const Result = React.lazy(() => import("./View/result/Result"));
+const notFound = React.lazy(() => import("./View/notFound"));
 
 function App() {
 	return (
@@ -43,6 +44,11 @@ function App() {
 								path="/movie"
 								name="movie"
 								component={Movie}
+							/>
+							<Route
+								path="/result"
+								name="result"
+								component={Result}
 							/>
 							<Route path="/" name="404" component={notFound} />
 						</Switch>

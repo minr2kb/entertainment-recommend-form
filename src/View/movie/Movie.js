@@ -3,7 +3,14 @@ import Select from "react-select";
 import { Card, Button, Input } from "../components/index";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
 import { db } from "../../firebase";
-import { setDoc, doc } from "firebase/firestore";
+import {
+	setDoc,
+	doc,
+	getDocs,
+	where,
+	query,
+	collection,
+} from "firebase/firestore";
 import { useHistory } from "react-router";
 const request = require("request");
 
@@ -82,33 +89,35 @@ const Movie = () => {
 			) {
 				window.alert("Please fill all information");
 			} else {
-				setDoc(
-					doc(db, "movie", studentID),
-					{
-						name: name,
-						studentID: studentID,
-						contact: contact,
-						email: email,
-					},
-					{ merge: true }
-				).then(() => {
-					movieList.forEach((movie, idx) => {
-						setDoc(
-							doc(db, `movie/${studentID}/movies`, movie.title),
-							movie,
-							{
-								merge: true,
-							}
-						).then(() => {
-							if (idx >= movieList.length - 1) {
-								window.alert(
-									"Submitted " +
-										movieList.length.toString() +
-										" movie(s)!"
-								);
-								history.push("/");
-							}
-						});
+				getDocs(
+					query(
+						collection(db, "movie"),
+						where("studentID", "==", studentID)
+					)
+				).then(data => {
+					let newMovieList = movieList;
+					if (!data.empty) {
+						newMovieList = newMovieList.concat(
+							data.docs[0].data().movies
+						);
+					}
+					setDoc(
+						doc(db, "movie", studentID),
+						{
+							name: name,
+							studentID: studentID,
+							contact: contact,
+							email: email,
+							movies: newMovieList,
+						},
+						{ merge: true }
+					).then(() => {
+						window.alert(
+							"Submitted " +
+								movieList.length.toString() +
+								" movie(s)!"
+						);
+						history.push("/");
 					});
 				});
 			}

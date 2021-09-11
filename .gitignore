@@ -24,3 +24,4 @@ yarn-error.log*
 
 # private
 /src/firebase.js
+/entertainment-recommend-form-firebase-adminsdk-d1znx-94db5e1aa9.json

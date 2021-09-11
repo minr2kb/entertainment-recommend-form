@@ -3,7 +3,14 @@ import Select from "react-select";
 import { Card, Button, Input } from "../components/index";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
 import { db } from "../../firebase";
-import { setDoc, doc } from "firebase/firestore";
+import {
+	setDoc,
+	doc,
+	getDocs,
+	where,
+	query,
+	collection,
+} from "firebase/firestore";
 import { useHistory } from "react-router";
 const request = require("request");
 
@@ -82,33 +89,37 @@ const Music = () => {
 			) {
 				window.alert("Please fill all information");
 			} else {
-				setDoc(
-					doc(db, "music", studentID),
-					{
-						name: name,
-						studentID: studentID,
-						contact: contact,
-						email: email,
-					},
-					{ merge: true }
-				).then(() => {
-					songList.forEach((song, idx) => {
-						setDoc(
-							doc(db, `music/${studentID}/songs`, song.title),
-							song,
-							{
-								merge: true,
-							}
-						).then(() => {
-							if (idx >= songList.length - 1) {
-								window.alert(
-									"Submitted " +
-										songList.length.toString() +
-										" song(s)!"
-								);
-								history.push("/");
-							}
-						});
+				getDocs(
+					query(
+						collection(db, "music"),
+						where("studentID", "==", studentID)
+					)
+				).then(data => {
+					let newSongList = songList;
+					if (!data.empty) {
+						console.log(data.docs[0].data().songs);
+						newSongList = newSongList.concat(
+							data.docs[0].data().songs
+						);
+						console.log(newSongList);
+					}
+					setDoc(
+						doc(db, "music", studentID),
+						{
+							name: name,
+							studentID: studentID,
+							contact: contact,
+							email: email,
+							songs: newSongList,
+						},
+						{ merge: true }
+					).then(() => {
+						window.alert(
+							"Submitted " +
+								songList.length.toString() +
+								" song(s)!"
+						);
+						history.push("/");
 					});
 				});
 			}
