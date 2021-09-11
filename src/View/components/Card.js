@@ -1,7 +1,14 @@
 import React from "react";
 import "./components.css";
 
-const Card = ({ children, clickable, centered, onClick }) => {
+const Card = ({
+	children,
+	clickable,
+	centered,
+	onClick,
+	backgroundColor,
+	color,
+}) => {
 	return (
 		<div
 			className="card"
@@ -9,6 +16,8 @@ const Card = ({ children, clickable, centered, onClick }) => {
 				display: centered ? "flex" : "inherit",
 				justifyContent: centered ? "center" : "inherit",
 				cursor: clickable ? "pointer" : "default",
+				backgroundColor: backgroundColor,
+				color: color,
 			}}
 			onClick={onClick}
 		>
