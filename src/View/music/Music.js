@@ -334,6 +334,7 @@ const Music = () => {
 					margin: 20,
 				}}
 			>
+				<Button onClick={() => history.push("/")}>Cancel</Button>
 				<Button highlighted onClick={() => submit()}>
 					Submit
 				</Button>
