@@ -2,22 +2,26 @@ import React, { useMemo, useState, useCallback, useEffect } from "react";
 import Select from "react-select";
 import { Card, Button, Input } from "../components/index";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
+import { db } from "../../firebase";
+import { collection, addDoc, getDocs, setDoc, doc } from "firebase/firestore";
+const request = require("request");
 
 const Music = () => {
 	const [songList, setSongList] = useState([
-		{
-			title: "Paris in the rain",
-			artist: "Lauv",
-			category: "studying",
-		},
-		{
-			title: "Paris in the rain2",
-			artist: "Lauv2",
-			category: "studying2",
-		},
+		// {
+		// 	title: "Paris in the rain",
+		// 	artist: "Lauv",
+		// 	category: "studying",
+		// },
+		// {
+		// 	title: "Paris in the rain2",
+		// 	artist: "Lauv2",
+		// 	category: "studying2",
+		// },
 	]);
 
 	const [editting, setEditting] = useState(false);
+	const [adding, setAdding] = useState(false);
 	const [category, setCategory] = useState({
 		value: "",
 		label: "",
@@ -34,6 +38,7 @@ const Music = () => {
 		setArtist("");
 		setTitle("");
 		setEditting(false);
+		setAdding(false);
 	}, []);
 
 	const deleteSong = idx => {
@@ -42,22 +47,78 @@ const Music = () => {
 	};
 
 	const addSong = () => {
-		songList.push({
-			title: title,
-			artist: artist,
-			category: category.label,
-		});
-		setSongList([...songList]);
-		console.log(songList);
-		clear();
+		setAdding(true);
+		let result = {
+			img: "",
+			url: "",
+		};
+		request(
+			`https://www.googleapis.com/youtube/v3/search?key=AIzaSyDOK70N2BFZsHBnw_rdxwsuuTf-g06d3os&part=id,snippet&type=video&q=${encodeURI(
+				title + artist
+			)}&maxResults=1`,
+			function (err, res, body) {
+				let data = JSON.parse(body).items;
+				if (data.length > 0) {
+					result["url"] =
+						"https://www.youtube.com/watch?v=" + data[0].id.videoId;
+					result["img"] = data[0].snippet.thumbnails.medium.url;
+				}
+
+				songList.push({
+					title: title,
+					artist: artist,
+					category: category.label,
+					img: result.img,
+					url: result.url,
+				});
+				setSongList([...songList]);
+				console.log(songList);
+				clear();
+			}
+		);
+	};
+
+	const submit = () => {
+		if (
+			window.confirm(
+				"The personal information above will only be used on purpose of prize provide. I agree to provide personal information to RC."
+			)
+		) {
+			setDoc(
+				doc(db, "music", studentID),
+				{
+					name: name,
+					studentID: studentID,
+					contact: contact,
+					email: email,
+				},
+				{ merge: true }
+			).then(() => {
+				songList.forEach(song => {
+					setDoc(
+						doc(db, `music/${studentID}/songs`, song.title),
+						song,
+						{
+							merge: true,
+						}
+					);
+				});
+				getDocs(collection(db, "music")).then(snapshot => {
+					console.log(snapshot.docs[0].data());
+					window.alert(
+						songList.length.toString() + " songs submitted!"
+					);
+				});
+			});
+		}
 	};
 
 	const options = useMemo(
 		() => [
 			{ value: "studying", label: "Studying" },
-			{ value: "working out", label: "Working out" },
+			{ value: "working-out", label: "Working out" },
 			{ value: "depressing", label: "Depressing" },
-			{ value: "crush", label: "When you have crush" },
+			{ value: "love", label: "Love" },
 			{ value: "traveling", label: "Traveling" },
 		],
 		[]
@@ -107,26 +168,55 @@ const Music = () => {
 					value={email}
 				/>
 			</Card>
+			<Card>
+				<div style={{ textAlign: "center" }}>
+					<b>Categories</b>
+				</div>
+				<p>
+					- <b>Studing</b>: Coding, Math, Creating something,
+					Designing, Writing...
+				</p>
+				<p>
+					- <b>Working out</b>: Interval, Dancing, Calm-walking...
+				</p>
+				<p>
+					- <b>Depressing</b>: Overthinking or overwhelm (when you
+					miss someone or heartbroken)...
+				</p>
+				<p>
+					- <b>Love</b>: When you have a crush
+				</p>
+				<p>
+					- <b>Traveling</b>: Traveling or jamming out in the car
+				</p>
+			</Card>
+
 			{songList.map((song, idx) => (
 				<Card key={idx}>
-					<div style={{ display: "flex", alignItems: "center" }}>
-						<div style={{ display: "flex", alignItems: "center" }}>
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between",
+						}}
+					>
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+							}}
+						>
 							<img
 								id="img"
-								alt="true"
+								alt="img"
 								style={{
 									width: "30%",
 									borderRadius: 8,
 									cursor: "pointer",
 									marginRight: 10,
 								}}
-								src="https://i.ytimg.com/vi/kOCkne-Bku4/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&amp;rs=AOn4CLDMO8EOfXNnUbOEF7yvIf51XRt2Pg"
-								onClick={() =>
-									window.open(
-										"https://www.youtube.com/watch?v=kOCkne-Bku4",
-										"_blank"
-									)
-								}
+								src={song.img}
+								onClick={() => window.open(song.url, "_blank")}
 							/>
 							<div>
 								<div
@@ -137,10 +227,20 @@ const Music = () => {
 								>
 									Title: <b>{song.title}</b>
 								</div>
-								<div style={{ marginTop: 3, marginBottom: 3 }}>
+								<div
+									style={{
+										marginTop: 3,
+										marginBottom: 3,
+									}}
+								>
 									Artist: <b>{song.artist}</b>
 								</div>
-								<div style={{ marginTop: 3, marginBottom: 3 }}>
+								<div
+									style={{
+										marginTop: 3,
+										marginBottom: 3,
+									}}
+								>
 									Category: <b>{song.category}</b>
 								</div>
 							</div>
@@ -200,8 +300,15 @@ const Music = () => {
 						}}
 					>
 						<Button onClick={() => clear()}>Cancel</Button>
-						<Button highlighted onClick={() => addSong()}>
-							Add
+						<Button
+							highlighted
+							onClick={
+								adding
+									? () => console.log("wait!")
+									: () => addSong()
+							}
+						>
+							{adding ? "wait..." : "Add"}
 						</Button>
 					</div>
 				</Card>
@@ -225,14 +332,7 @@ const Music = () => {
 					margin: 40,
 				}}
 			>
-				<Button
-					highlighted
-					onClick={() =>
-						window.alert(
-							songList.length.toString() + " songs submitted!"
-						)
-					}
-				>
+				<Button highlighted onClick={() => submit()}>
 					Submit
 				</Button>
 			</div>
