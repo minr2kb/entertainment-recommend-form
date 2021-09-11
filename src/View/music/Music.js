@@ -3,10 +3,12 @@ import Select from "react-select";
 import { Card, Button, Input } from "../components/index";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
 import { db } from "../../firebase";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
+import { useHistory } from "react-router";
 const request = require("request");
 
 const Music = () => {
+	const history = useHistory();
 	const [songList, setSongList] = useState([]);
 	const [editting, setEditting] = useState(false);
 	const [adding, setAdding] = useState(false);
@@ -75,7 +77,8 @@ const Music = () => {
 				name.length === 0 ||
 				studentID.length === 0 ||
 				contact.length === 0 ||
-				email.length === 0
+				email.length === 0 ||
+				songList.length === 0
 			) {
 				window.alert("Please fill all information");
 			} else {
@@ -89,20 +92,23 @@ const Music = () => {
 					},
 					{ merge: true }
 				).then(() => {
-					songList.forEach(song => {
+					songList.forEach((song, idx) => {
 						setDoc(
 							doc(db, `music/${studentID}/songs`, song.title),
 							song,
 							{
 								merge: true,
 							}
-						);
-					});
-					getDocs(collection(db, "music")).then(snapshot => {
-						console.log(snapshot.docs[0].data());
-						window.alert(
-							songList.length.toString() + " songs submitted!"
-						);
+						).then(() => {
+							if (idx >= songList.length - 1) {
+								window.alert(
+									"Submitted " +
+										songList.length.toString() +
+										" song(s)!"
+								);
+								history.push("/");
+							}
+						});
 					});
 				});
 			}

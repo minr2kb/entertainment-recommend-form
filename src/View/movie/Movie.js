@@ -3,10 +3,12 @@ import Select from "react-select";
 import { Card, Button, Input } from "../components/index";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
 import { db } from "../../firebase";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
+import { useHistory } from "react-router";
 const request = require("request");
 
 const Movie = () => {
+	const history = useHistory();
 	const [movieList, setMovieList] = useState([]);
 	const [editting, setEditting] = useState(false);
 	const [adding, setAdding] = useState(false);
@@ -75,7 +77,8 @@ const Movie = () => {
 				name.length === 0 ||
 				studentID.length === 0 ||
 				contact.length === 0 ||
-				email.length === 0
+				email.length === 0 ||
+				movieList.length === 0
 			) {
 				window.alert("Please fill all information");
 			} else {
@@ -89,19 +92,23 @@ const Movie = () => {
 					},
 					{ merge: true }
 				).then(() => {
-					movieList.forEach(movie => {
+					movieList.forEach((movie, idx) => {
 						setDoc(
 							doc(db, `movie/${studentID}/movies`, movie.title),
 							movie,
 							{
 								merge: true,
 							}
-						);
-					});
-					getDocs(collection(db, "movie")).then(snapshot => {
-						window.alert(
-							movieList.length.toString() + " movies submitted!"
-						);
+						).then(() => {
+							if (idx >= movieList.length - 1) {
+								window.alert(
+									"Submitted " +
+										movieList.length.toString() +
+										" movie(s)!"
+								);
+								history.push("/");
+							}
+						});
 					});
 				});
 			}
