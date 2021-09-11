@@ -1,25 +1,13 @@
-import React, { useMemo, useState, useCallback, useEffect } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import Select from "react-select";
 import { Card, Button, Input } from "../components/index";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
 import { db } from "../../firebase";
-import { collection, addDoc, getDocs, setDoc, doc } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 const request = require("request");
 
 const Music = () => {
-	const [songList, setSongList] = useState([
-		// {
-		// 	title: "Paris in the rain",
-		// 	artist: "Lauv",
-		// 	category: "studying",
-		// },
-		// {
-		// 	title: "Paris in the rain2",
-		// 	artist: "Lauv2",
-		// 	category: "studying2",
-		// },
-	]);
-
+	const [songList, setSongList] = useState([]);
 	const [editting, setEditting] = useState(false);
 	const [adding, setAdding] = useState(false);
 	const [category, setCategory] = useState({
@@ -72,7 +60,6 @@ const Music = () => {
 					url: result.url,
 				});
 				setSongList([...songList]);
-				console.log(songList);
 				clear();
 			}
 		);
@@ -84,32 +71,41 @@ const Music = () => {
 				"The personal information above will only be used on purpose of prize provide. I agree to provide personal information to RC."
 			)
 		) {
-			setDoc(
-				doc(db, "music", studentID),
-				{
-					name: name,
-					studentID: studentID,
-					contact: contact,
-					email: email,
-				},
-				{ merge: true }
-			).then(() => {
-				songList.forEach(song => {
-					setDoc(
-						doc(db, `music/${studentID}/songs`, song.title),
-						song,
-						{
-							merge: true,
-						}
-					);
+			if (
+				name.length === 0 ||
+				studentID.length === 0 ||
+				contact.length === 0 ||
+				email.length === 0
+			) {
+				window.alert("Please fill all information");
+			} else {
+				setDoc(
+					doc(db, "music", studentID),
+					{
+						name: name,
+						studentID: studentID,
+						contact: contact,
+						email: email,
+					},
+					{ merge: true }
+				).then(() => {
+					songList.forEach(song => {
+						setDoc(
+							doc(db, `music/${studentID}/songs`, song.title),
+							song,
+							{
+								merge: true,
+							}
+						);
+					});
+					getDocs(collection(db, "music")).then(snapshot => {
+						console.log(snapshot.docs[0].data());
+						window.alert(
+							songList.length.toString() + " songs submitted!"
+						);
+					});
 				});
-				getDocs(collection(db, "music")).then(snapshot => {
-					console.log(snapshot.docs[0].data());
-					window.alert(
-						songList.length.toString() + " songs submitted!"
-					);
-				});
-			});
+			}
 		}
 	};
 
@@ -329,7 +325,7 @@ const Music = () => {
 				style={{
 					display: "flex",
 					justifyContent: "center",
-					margin: 40,
+					margin: 20,
 				}}
 			>
 				<Button highlighted onClick={() => submit()}>

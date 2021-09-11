@@ -19,19 +19,39 @@ const loading = (
 const Home = React.lazy(() => import("./View/home/Home"));
 const Music = React.lazy(() => import("./View/music/Music"));
 const Movie = React.lazy(() => import("./View/movie/Movie"));
+const notFound = React.lazy(() => import("./View/notFound.js"));
 
 function App() {
 	return (
-		<div className="App">
-			<BrowserRouter>
-				<React.Suspense fallback={loading}>
-					<Switch>
-						<Route exact path="/" name="Home" component={Home} />
-						<Route path="/music" name="music" component={Music} />
-						<Route path="/movie" name="movie" component={Movie} />
-					</Switch>
-				</React.Suspense>
-			</BrowserRouter>
+		<div>
+			<div className="App">
+				<BrowserRouter>
+					<React.Suspense fallback={loading}>
+						<Switch>
+							<Route
+								exact
+								path="/"
+								name="Home"
+								component={Home}
+							/>
+							<Route
+								path="/music"
+								name="music"
+								component={Music}
+							/>
+							<Route
+								path="/movie"
+								name="movie"
+								component={Movie}
+							/>
+							<Route path="/" name="404" component={notFound} />
+						</Switch>
+					</React.Suspense>
+				</BrowserRouter>
+			</div>
+			<footer style={{ margin: 20, color: "grey" }}>
+				Copyright (C) 2021, Kyungbae Min
+			</footer>
 		</div>
 	);
 }
