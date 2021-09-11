@@ -70,10 +70,10 @@ const Result = () => {
 										Student ID: <b>{user.studentID}</b>
 									</div>
 									<div style={{ marginTop: 10 }}>
-										Phone/KakaoID: <b>{user.contact}</b>
+										Contact: <b>{user.contact}</b>
 									</div>
 									<div style={{ marginTop: 10 }}>
-										Univ. email: <b>{user.email}</b>
+										E-mail: <b>{user.email}</b>
 									</div>
 								</Card>
 							</div>
@@ -141,10 +141,10 @@ const Result = () => {
 										Student ID: <b>{user.studentID}</b>
 									</div>
 									<div style={{ marginTop: 10 }}>
-										Phone/KakaoID: <b>{user.contact}</b>
+										Contact: <b>{user.contact}</b>
 									</div>
 									<div style={{ marginTop: 10 }}>
-										Univ. email: <b>{user.email}</b>
+										E-mail: <b>{user.email}</b>
 									</div>
 								</Card>
 							</div>
