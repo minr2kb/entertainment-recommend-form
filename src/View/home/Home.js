@@ -22,7 +22,7 @@ const Home = () => {
 						<b>🎬Categories</b>
 					</p>
 					<div>- Music</div>
-					<div>- Movie/Show/Drama</div>
+					<div>- Movie/TV Show/Drama</div>
 					<p>
 						<b>🥳Prize</b>
 					</p>

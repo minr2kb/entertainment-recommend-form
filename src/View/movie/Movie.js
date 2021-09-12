@@ -324,22 +324,24 @@ const Movie = () => {
 					<div style={{ marginTop: 20, marginBottom: 10 }}>
 						Reason for recommending
 					</div>
-					<textarea
-						style={{
-							width: "100%",
-							height: "5rem",
-							fontFamily: "arial",
-							fontSize: "1rem",
-							resize: "none",
-							borderColor: "rgb(193, 193, 193)",
-							borderRadius: 5,
-							outlineColor: "lightseagreen",
-						}}
-						value={reason}
-						onChange={e => {
-							setReason(e.target.value);
-						}}
-					/>
+					<div style={{ display: "flex" }}>
+						<textarea
+							style={{
+								width: "100%",
+								height: "5rem",
+								fontFamily: "arial",
+								fontSize: "1rem",
+								resize: "none",
+								borderColor: "rgb(193, 193, 193)",
+								borderRadius: 5,
+								outlineColor: "lightseagreen",
+							}}
+							value={reason}
+							onChange={e => {
+								setReason(e.target.value);
+							}}
+						/>
+					</div>
 					<div
 						style={{
 							display: "flex",

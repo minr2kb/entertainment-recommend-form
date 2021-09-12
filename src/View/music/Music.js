@@ -204,20 +204,20 @@ const Music = () => {
 				</div>
 				<p>
 					- <b>Studing</b>: Coding, Math, Creating something,
-					Designing, Writing...
+					Designing, Writing, etc.
 				</p>
 				<p>
-					- <b>Working out</b>: Interval, Dancing, Calm-walking...
+					- <b>Working out</b>: Interval, Dancing, Calm-walking, etc.
 				</p>
 				<p>
-					- <b>Depressing</b>: Overthinking or overwhelm (when you
-					miss someone or heartbroken)...
+					- <b>Depressing</b>: Overthinking, Overwhelm, etc. (When you
+					miss someone or heartbroken)
 				</p>
 				<p>
-					- <b>Love</b>: When you have a crush
+					- <b>Love</b>: When you have a crush, etc.
 				</p>
 				<p>
-					- <b>Traveling</b>: Traveling or jamming out in the car
+					- <b>Traveling</b>: Traveling, Jamming out in the car, etc.
 				</p>
 			</Card>
 
@@ -333,22 +333,24 @@ const Music = () => {
 					<div style={{ marginTop: 20, marginBottom: 10 }}>
 						Reason for recommending
 					</div>
-					<textarea
-						style={{
-							width: "100%",
-							height: "5rem",
-							fontFamily: "arial",
-							fontSize: "1rem",
-							resize: "none",
-							borderColor: "rgb(193, 193, 193)",
-							borderRadius: 5,
-							outlineColor: "lightseagreen",
-						}}
-						value={reason}
-						onChange={e => {
-							setReason(e.target.value);
-						}}
-					/>
+					<div style={{ display: "flex" }}>
+						<textarea
+							style={{
+								width: "100%",
+								height: "5rem",
+								fontFamily: "arial",
+								fontSize: "1rem",
+								resize: "none",
+								borderColor: "rgb(193, 193, 193)",
+								borderRadius: 5,
+								outlineColor: "lightseagreen",
+							}}
+							value={reason}
+							onChange={e => {
+								setReason(e.target.value);
+							}}
+						/>
+					</div>
 					<div
 						style={{
 							display: "flex",
