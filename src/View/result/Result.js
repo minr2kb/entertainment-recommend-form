@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Card, Button } from "../components/index";
 
 import { db } from "../../firebase";
-import { getDocs, collection } from "firebase/firestore";
+import {
+	getDocs,
+	collection,
+	query,
+	orderBy,
+	Timestamp,
+} from "firebase/firestore";
 
 const Result = () => {
 	const [musicList, setMusicList] = useState([]);
@@ -11,18 +17,23 @@ const Result = () => {
 
 	async function fetchMusic() {
 		let list = [];
-		getDocs(collection(db, "music")).then(users => {
-			users.forEach(user => list.push(user.data()));
-			setMusicList(list);
-		});
+
+		getDocs(query(collection(db, "music"), orderBy("time", "desc"))).then(
+			users => {
+				users.forEach(user => list.push(user.data()));
+				setMusicList(list);
+			}
+		);
 	}
 
 	async function fetchMovie() {
 		let list = [];
-		getDocs(collection(db, "movie")).then(users => {
-			users.forEach(user => list.push(user.data()));
-			setMovieList(list);
-		});
+		getDocs(query(collection(db, "movie"), orderBy("time", "desc"))).then(
+			users => {
+				users.forEach(user => list.push(user.data()));
+				setMovieList(list);
+			}
+		);
 	}
 
 	async function fetchData() {
@@ -75,6 +86,15 @@ const Result = () => {
 									<div style={{ marginTop: 10 }}>
 										E-mail: <b>{user.email}</b>
 									</div>
+									<div style={{ marginTop: 10 }}>
+										Time:{" "}
+										<b>
+											{user.time
+												.toDate()
+												.toString()
+												.substr(0, 24)}
+										</b>
+									</div>
 								</Card>
 							</div>
 							{user?.songs.map((song, idx) => (
@@ -124,6 +144,14 @@ const Result = () => {
 											>
 												Category: <b>{song.category}</b>
 											</div>
+											<div
+												style={{
+													marginTop: 3,
+													marginBottom: 3,
+												}}
+											>
+												Reason: <b>{song.reason}</b>
+											</div>
 										</div>
 									</div>
 								</Card>
@@ -145,6 +173,15 @@ const Result = () => {
 									</div>
 									<div style={{ marginTop: 10 }}>
 										E-mail: <b>{user.email}</b>
+									</div>
+									<div style={{ marginTop: 10 }}>
+										Time:{" "}
+										<b>
+											{user.time
+												.toDate()
+												.toString()
+												.substr(0, 24)}
+										</b>
 									</div>
 								</Card>
 							</div>
@@ -195,6 +232,14 @@ const Result = () => {
 												}}
 											>
 												Genre: <b>{movie.genre}</b>
+											</div>
+											<div
+												style={{
+													marginTop: 3,
+													marginBottom: 3,
+												}}
+											>
+												Reason: <b>{movie.reason}</b>
 											</div>
 										</div>
 									</div>

@@ -10,6 +10,7 @@ import {
 	where,
 	query,
 	collection,
+	Timestamp,
 } from "firebase/firestore";
 import { useHistory } from "react-router";
 const request = require("request");
@@ -25,6 +26,7 @@ const Movie = () => {
 	});
 	const [title, setTitle] = useState("");
 	const [year, setYear] = useState("");
+	const [reason, setReason] = useState("");
 	const [name, setName] = useState("");
 	const [studentID, setStudentID] = useState("");
 	const [contact, setContact] = useState("");
@@ -34,6 +36,7 @@ const Movie = () => {
 		setGenre({});
 		setYear("");
 		setTitle("");
+		setReason("");
 		setEditting(false);
 		setAdding(false);
 	}, []);
@@ -54,17 +57,31 @@ const Movie = () => {
 				title + "(" + year + ")"
 			)}&maxResults=1`,
 			function (err, res, body) {
-				let data = JSON.parse(body).items;
-				if (data.length > 0) {
+				try {
+					let data = JSON.parse(body).items;
+					if (data.length > 0) {
+						result["url"] =
+							"https://www.youtube.com/watch?v=" +
+							data[0].id.videoId;
+						result["img"] = data[0].snippet.thumbnails.medium.url;
+					}
+				} catch (e) {
+					console.log(e);
 					result["url"] =
-						"https://www.youtube.com/watch?v=" + data[0].id.videoId;
-					result["img"] = data[0].snippet.thumbnails.medium.url;
+						"https://www.youtube.com/results?search_query=" +
+						title +
+						"(" +
+						year +
+						")";
+					result["img"] =
+						"https://i.ytimg.com/vi/cIhfYRS0qvg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkxdS0JEDNuB9xNpK0DvYwmMJaQw";
 				}
 
 				movieList.push({
 					title: title,
 					year: year,
 					genre: genre.label,
+					reason: reason,
 					img: result.img,
 					url: result.url,
 				});
@@ -108,6 +125,7 @@ const Movie = () => {
 							studentID: studentID,
 							contact: contact,
 							email: email,
+							time: Timestamp.now(),
 							movies: newMovieList,
 						},
 						{ merge: true }
@@ -248,6 +266,14 @@ const Movie = () => {
 								>
 									Genre: <b>{movie.genre}</b>
 								</div>
+								<div
+									style={{
+										marginTop: 3,
+										marginBottom: 3,
+									}}
+								>
+									Reason: <b>{movie.reason}</b>
+								</div>
 							</div>
 						</div>
 
@@ -295,6 +321,25 @@ const Movie = () => {
 							setGenre(input);
 						}}
 					/>
+					<div style={{ marginTop: 20, marginBottom: 10 }}>
+						Reason for recommending
+					</div>
+					<textarea
+						style={{
+							width: "100%",
+							height: "5rem",
+							fontFamily: "arial",
+							fontSize: "1rem",
+							resize: "none",
+							borderColor: "rgb(193, 193, 193)",
+							borderRadius: 5,
+							outlineColor: "lightseagreen",
+						}}
+						value={reason}
+						onChange={e => {
+							setReason(e.target.value);
+						}}
+					/>
 					<div
 						style={{
 							display: "flex",
@@ -330,8 +375,8 @@ const Movie = () => {
 			)}
 			<div
 				style={{
-					display: "flex",
-					justifyContent: "center",
+					display: editting ? "none" : "flex",
+					justifyContent: "space-around",
 					margin: 20,
 				}}
 			>

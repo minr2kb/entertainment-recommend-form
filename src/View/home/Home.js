@@ -8,15 +8,15 @@ const Home = () => {
 	return (
 		<div style={{ maxWidth: 500, flex: 1 }}>
 			<header>
-				<h1>RA event</h1>
+				<h1>21F RA Event</h1>
 			</header>
 			<Card>
 				<div style={{ padding: 10 }}>
 					<p>
-						Hi! we are Snapshot committee from RC team! Many
+						Hi!👋 We are Snapshot committee from RC team! Many
 						students are spending a lot of time at home due to the
-						COVID-19 pandemic. If you have your own good know-how to
-						soothe boredom, please share it with us!
+						COVID-19 pandemic. If you have your own good items to
+						soothe boredom, please share with us!
 					</p>
 					<p>
 						<b>🎬Categories</b>
@@ -26,9 +26,9 @@ const Home = () => {
 					<p>
 						<b>🥳Prize</b>
 					</p>
-					<div>- 1st place - CJ Gift Card (30,000￦) to 3 people</div>
-					<div>- 2nd place - CJ Gift Card (20,000￦) to 5 people</div>
-					<div>- 3rd place - CJ Gift Card (10,000￦) to 7 people</div>
+					<div>- 1st - CJ Gift Card (30,000￦) to 3 people</div>
+					<div>- 2nd - CJ Gift Card (20,000￦) to 5 people</div>
+					<div>- 3rd - CJ Gift Card (10,000￦) to 7 people</div>
 					<p>
 						<b>Click the button below and submit your tips!</b>
 					</p>

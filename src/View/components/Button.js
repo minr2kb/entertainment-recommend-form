@@ -8,8 +8,8 @@ const Button = ({ children, onClick, highlighted }) => {
 			className="button"
 			style={{
 				cursor: "pointer",
-				backgroundColor: highlighted ? "rgb(60,70, 250)" : "white",
-				color: highlighted ? "white" : "inherit",
+				backgroundColor: highlighted ? "lightseagreen" : "",
+				color: highlighted ? "white" : "",
 			}}
 		>
 			{children}
