@@ -47,47 +47,57 @@ const Music = () => {
 	};
 
 	const addSong = () => {
-		setAdding(true);
-		let result = {
-			img: "",
-			url: "",
-		};
-		request(
-			`https://www.googleapis.com/youtube/v3/search?key=AIzaSyDOK70N2BFZsHBnw_rdxwsuuTf-g06d3os&part=id,snippet&type=video&q=${encodeURI(
-				title + artist
-			)}&maxResults=1`,
-			function (err, res, body) {
-				try {
-					let data = JSON.parse(body).items;
-					if (data.length > 0) {
+		if (
+			title === "" ||
+			artist === "" ||
+			category.label === "" ||
+			reason === ""
+		) {
+			window.alert("Please fill all information");
+		} else {
+			setAdding(true);
+			let result = {
+				img: "",
+				url: "",
+			};
+			request(
+				`https://www.googleapis.com/youtube/v3/search?key=AIzaSyDOK70N2BFZsHBnw_rdxwsuuTf-g06d3os&part=id,snippet&type=video&q=${encodeURI(
+					title + artist
+				)}&maxResults=1`,
+				function (err, res, body) {
+					try {
+						let data = JSON.parse(body).items;
+						if (data.length > 0) {
+							result["url"] =
+								"https://www.youtube.com/watch?v=" +
+								data[0].id.videoId;
+							result["img"] =
+								data[0].snippet.thumbnails.medium.url;
+						}
+					} catch (e) {
+						console.log(e);
 						result["url"] =
-							"https://www.youtube.com/watch?v=" +
-							data[0].id.videoId;
-						result["img"] = data[0].snippet.thumbnails.medium.url;
+							"https://www.youtube.com/results?search_query=" +
+							title +
+							" - " +
+							artist;
+						result["img"] =
+							"https://i.ytimg.com/vi/cIhfYRS0qvg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkxdS0JEDNuB9xNpK0DvYwmMJaQw";
 					}
-				} catch (e) {
-					console.log(e);
-					result["url"] =
-						"https://www.youtube.com/results?search_query=" +
-						title +
-						" - " +
-						artist;
-					result["img"] =
-						"https://i.ytimg.com/vi/cIhfYRS0qvg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkxdS0JEDNuB9xNpK0DvYwmMJaQw";
-				}
 
-				songList.push({
-					title: title,
-					artist: artist,
-					category: category.label,
-					reason: reason,
-					img: result.img,
-					url: result.url,
-				});
-				setSongList([...songList]);
-				clear();
-			}
-		);
+					songList.push({
+						title: title,
+						artist: artist,
+						category: category.label,
+						reason: reason,
+						img: result.img,
+						url: result.url,
+					});
+					setSongList([...songList]);
+					clear();
+				}
+			);
+		}
 	};
 
 	const submit = () => {

@@ -47,48 +47,53 @@ const Movie = () => {
 	};
 
 	const addMovie = () => {
-		setAdding(true);
-		let result = {
-			img: "",
-			url: "",
-		};
-		request(
-			`https://www.googleapis.com/youtube/v3/search?key=AIzaSyDOK70N2BFZsHBnw_rdxwsuuTf-g06d3os&part=id,snippet&type=video&q=${encodeURI(
-				title + "(" + year + ")"
-			)}&maxResults=1`,
-			function (err, res, body) {
-				try {
-					let data = JSON.parse(body).items;
-					if (data.length > 0) {
+		if (title === "" || genre.label === "" || reason === "") {
+			window.alert("Please fill all information");
+		} else {
+			setAdding(true);
+			let result = {
+				img: "",
+				url: "",
+			};
+			request(
+				`https://www.googleapis.com/youtube/v3/search?key=AIzaSyDOK70N2BFZsHBnw_rdxwsuuTf-g06d3os&part=id,snippet&type=video&q=${encodeURI(
+					title + "(" + year + ")"
+				)}&maxResults=1`,
+				function (err, res, body) {
+					try {
+						let data = JSON.parse(body).items;
+						if (data.length > 0) {
+							result["url"] =
+								"https://www.youtube.com/watch?v=" +
+								data[0].id.videoId;
+							result["img"] =
+								data[0].snippet.thumbnails.medium.url;
+						}
+					} catch (e) {
+						console.log(e);
 						result["url"] =
-							"https://www.youtube.com/watch?v=" +
-							data[0].id.videoId;
-						result["img"] = data[0].snippet.thumbnails.medium.url;
+							"https://www.youtube.com/results?search_query=" +
+							title +
+							"(" +
+							year +
+							")";
+						result["img"] =
+							"https://i.ytimg.com/vi/cIhfYRS0qvg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkxdS0JEDNuB9xNpK0DvYwmMJaQw";
 					}
-				} catch (e) {
-					console.log(e);
-					result["url"] =
-						"https://www.youtube.com/results?search_query=" +
-						title +
-						"(" +
-						year +
-						")";
-					result["img"] =
-						"https://i.ytimg.com/vi/cIhfYRS0qvg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAkxdS0JEDNuB9xNpK0DvYwmMJaQw";
-				}
 
-				movieList.push({
-					title: title,
-					year: year,
-					genre: genre.label,
-					reason: reason,
-					img: result.img,
-					url: result.url,
-				});
-				setMovieList([...movieList]);
-				clear();
-			}
-		);
+					movieList.push({
+						title: title,
+						year: year,
+						genre: genre.label,
+						reason: reason,
+						img: result.img,
+						url: result.url,
+					});
+					setMovieList([...movieList]);
+					clear();
+				}
+			);
+		}
 	};
 
 	const submit = () => {
