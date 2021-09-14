@@ -26,9 +26,21 @@ const Home = () => {
 					<p>
 						<b>🥳Prize</b>
 					</p>
-					<div>- 1st - CJ Gift Card (30,000￦) to 3 people</div>
-					<div>- 2nd - CJ Gift Card (20,000￦) to 5 people</div>
-					<div>- 3rd - CJ Gift Card (10,000￦) to 7 people</div>
+					<div>- CJ Gift Card (10,000￦) to 26 people</div>
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "center",
+							marginTop: 10,
+						}}
+					>
+						<img
+							src={
+								"https://www.cjone.com/cjmweb/cashimg//2021/05/20210531179c2a9689058"
+							}
+							width={"70%"}
+						/>
+					</div>
 					<p>
 						<b>Click the button below and submit your tips!</b>
 					</p>
