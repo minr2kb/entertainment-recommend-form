@@ -345,6 +345,9 @@ const Movie = () => {
 							onChange={e => {
 								setReason(e.target.value);
 							}}
+							placeholder={
+								"Must write 3 or more sentences to be chosen as winner!"
+							}
 						/>
 					</div>
 					<div

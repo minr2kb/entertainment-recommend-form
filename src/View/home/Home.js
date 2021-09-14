@@ -42,6 +42,10 @@ const Home = () => {
 						/>
 					</div>
 					<p>
+						**Must write 3 or more sentences for reason to be chosen
+						as winner!**
+					</p>
+					<p>
 						<b>Click the button below and submit your tips!</b>
 					</p>
 					<div
