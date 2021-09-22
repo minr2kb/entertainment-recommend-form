@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, Button } from "../components/index";
 
 import { db } from "../../firebase";
-import {
-	getDocs,
-	collection,
-	query,
-	orderBy,
-	Timestamp,
-} from "firebase/firestore";
+import { getDocs, collection, query, orderBy } from "firebase/firestore";
+
+import { useHistory } from "react-router";
 
 const Result = () => {
 	const [musicList, setMusicList] = useState([]);
 	const [movieList, setMovieList] = useState([]);
 	const [category, setCategory] = useState("music");
+	const history = useHistory();
 
 	async function fetchMusic() {
 		let list = [];
@@ -36,14 +33,14 @@ const Result = () => {
 		);
 	}
 
-	async function fetchData() {
+	const fetchData = useCallback(async () => {
 		await fetchMusic();
 		await fetchMovie();
-	}
+	}, []);
 
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [fetchData]);
 
 	return (
 		<div style={{ maxWidth: 500, flex: 1 }}>
@@ -66,6 +63,9 @@ const Result = () => {
 					onClick={() => setCategory("movie")}
 				>
 					Movie
+				</Button>
+				<Button highlighted onClick={() => history.push("/winner")}>
+					Winners
 				</Button>
 			</div>
 

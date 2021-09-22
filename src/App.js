@@ -20,6 +20,7 @@ const Home = React.lazy(() => import("./View/home/Home"));
 const Music = React.lazy(() => import("./View/music/Music"));
 const Movie = React.lazy(() => import("./View/movie/Movie"));
 const Result = React.lazy(() => import("./View/result/Result"));
+const Winner = React.lazy(() => import("./View/winner/Winner"));
 const notFound = React.lazy(() => import("./View/notFound"));
 
 function App() {
@@ -49,6 +50,11 @@ function App() {
 								path="/result"
 								name="result"
 								component={Result}
+							/>
+							<Route
+								path="/winner"
+								name="winner"
+								component={Winner}
 							/>
 							<Route path="/" name="404" component={notFound} />
 						</Switch>

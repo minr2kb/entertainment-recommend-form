@@ -39,6 +39,7 @@ const Home = () => {
 								"https://www.cjone.com/cjmweb/cashimg//2021/05/20210531179c2a9689058"
 							}
 							width={"70%"}
+							alt="CJ"
 						/>
 					</div>
 					<p>

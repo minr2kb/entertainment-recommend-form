@@ -8,15 +8,17 @@ const Card = ({
 	onClick,
 	backgroundColor,
 	color,
+	highlighted,
 }) => {
 	return (
 		<div
 			className="card"
 			style={{
-				display: centered ? "flex" : "inherit",
-				justifyContent: centered ? "center" : "inherit",
-				cursor: clickable ? "pointer" : "default",
+				display: centered && "flex",
+				justifyContent: centered && "center",
+				cursor: clickable && "pointer",
 				backgroundColor: backgroundColor,
+				border: highlighted && "solid 2px lightseagreen",
 				color: color,
 			}}
 			onClick={onClick}
