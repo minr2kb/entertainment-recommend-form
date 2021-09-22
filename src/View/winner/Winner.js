@@ -26,12 +26,10 @@ const Winner = () => {
 				user.songs?.forEach(song => {
 					countSentences(song.reason) >= 3 &&
 						participants.push(user.studentID);
-					// : console.log(user.name + " - " + song.reason);
 				});
 				user.movies?.forEach(movie => {
 					countSentences(movie.reason) >= 3 &&
 						participants.push(user.studentID);
-					// : console.log(user.name + " - " + movie.reason);
 				});
 			});
 			for (let i = 0; i < 26; i++) {

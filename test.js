@@ -1,5 +1,5 @@
 let str =
-	"Among all the series of Harry Potter, I chose Harry Potter and the Sorcerer's Stone. The reason is because if you watch this one, you would not be able to stop yourself from watching the next series! (Actually saying from my experience) And, I think it is fun because since it is a fantasy movie, it stimulates the watchers’ imagination.";
+	"This movie is very touching and I could imagine the relationship in the future. The protagonist is a good actor too! Also,Scarlett Johansson's voice acting as the AI which shows no emotions, fascinate people with just his voice.";
 
 console.log(str.replace(/\w[.?!][\s|$]/g, "|").split("|"));
 

@@ -46,21 +46,26 @@ const Home = () => {
 						**Must write 3 or more sentences for reason to be chosen
 						as winner!**
 					</p>
-					<p>
+					{/* <p>
 						<b>Click the button below and submit your tips!</b>
-					</p>
+					</p> */}
 					<div
 						style={{
 							display: "flex",
 							justifyContent: "space-around",
 						}}
 					>
-						<Button onClick={() => history.push("/music")}>
+						{/* <Button onClick={() => history.push("/music")}>
 							Music
 						</Button>
 						<Button onClick={() => history.push("/movie")}>
 							Movie
-						</Button>
+						</Button> */}
+						<p>
+							<b>
+								Event is done! Thank you for your participation!
+							</b>
+						</p>
 					</div>
 				</div>
 			</Card>
