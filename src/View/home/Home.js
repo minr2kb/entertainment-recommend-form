@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 import Card from "../components/Card";
-import Button from "../components/Button";
+// import Button from "../components/Button";
 
 const Home = () => {
-	const history = useHistory();
+	// const history = useHistory();
 	return (
 		<div style={{ maxWidth: 500, flex: 1 }}>
 			<header>

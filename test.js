@@ -1,8 +1,12 @@
-let str =
-	"This movie is very touching and I could imagine the relationship in the future. The protagonist is a good actor too! Also,Scarlett Johansson's voice acting as the AI which shows no emotions, fascinate people with just his voice.";
+function pickRandom(n, list) {
+	let all = list;
+	let picked = [];
+	for (let i = 0; i < n; i++) {
+		var num = Math.floor(Math.random() * all.length);
+		picked.push(all[num]);
+		all = all.filter(elem => elem !== all[num]);
+	}
+	return picked;
+}
 
-console.log(str.replace(/\w[.?!][\s|$]/g, "|").split("|"));
-
-// let dict = { a: { b: 3 } };
-
-// console.log(dict.b?.b);
+console.log(pickRandom(3, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));

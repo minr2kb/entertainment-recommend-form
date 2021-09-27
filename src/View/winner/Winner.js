@@ -10,9 +10,13 @@ const Winner = () => {
 	const [showMovie, setShowMovie] = useState([]);
 	const [winners, setWinners] = useState([]);
 
-	function countSentences(str) {
-		return str.replace(/\w[.?!][\s|$]/g, "|").split("|").length;
-	}
+	// function countSentences(str) {
+	// 	return str.replace(/\w[.?!][\s|$]/g, "|").split("|").length;
+	// }
+
+	// function isRA(stuID) {
+	// 	return ["114009698", "114181105", "112980362"].includes(stuID);
+	// }
 
 	function remove(list, target) {
 		return list.filter(elem => elem !== target);
@@ -20,24 +24,55 @@ const Winner = () => {
 
 	function pickWinners() {
 		if (winners.length === 0) {
-			let participants = [];
-			let picked = [];
-			Object.values(totalDict).forEach(user => {
-				user.songs?.forEach(song => {
-					countSentences(song.reason) >= 3 &&
-						participants.push(user.studentID);
-				});
-				user.movies?.forEach(movie => {
-					countSentences(movie.reason) >= 3 &&
-						participants.push(user.studentID);
-				});
-			});
-			for (let i = 0; i < 26; i++) {
-				var num = Math.floor(Math.random() * participants.length);
-				picked.push(participants[num]);
-				participants = remove(participants, participants[num]);
-			}
-			console.log(picked);
+			// let participants = [];
+			let picked = [
+				"111237704",
+				"112980362 ",
+				"113046081",
+				"113053391",
+				"111792919",
+				"113949353",
+				"113949609",
+				"111616798",
+				"114181929",
+				"114182885",
+				"114001669",
+				"114001368",
+				"112424893",
+				"114182469",
+				"@01437695",
+				"114747558",
+				"01397677",
+				"111850374",
+				"112466437",
+				"111672174",
+				"113044959",
+				"114673369",
+				"114666013",
+				"01402560",
+				"114000518",
+				"114183796",
+			];
+			// Object.values(totalDict).forEach(user => {
+			// 	console.log(user.name);
+			// 	console.log(isRA(user.studentID));
+			// 	if (!isRA(user.studentID)) {
+			// 		user.songs?.forEach(song => {
+			// 			countSentences(song.reason) >= 3 &&
+			// 				participants.push(user.studentID);
+			// 		});
+			// 		user.movies?.forEach(movie => {
+			// 			countSentences(movie.reason) >= 3 &&
+			// 				participants.push(user.studentID);
+			// 		});
+			// 	}
+			// });
+			// for (let i = 0; i < 26; i++) {
+			// 	var num = Math.floor(Math.random() * participants.length);
+			// 	picked.push(participants[num]);
+			// 	participants = remove(participants, participants[num]);
+			// }
+			// console.log(picked);
 			setWinners(picked);
 		} else {
 			setWinners([]);
