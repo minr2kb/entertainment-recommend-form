@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Card, Button } from "../components/index";
-
 import { db } from "../../firebase";
 import { getDocs, collection, query, orderBy } from "firebase/firestore";
-
-// import { useHistory } from "react-router";
 
 const musicGenres = {
 	Studying: "Studying",
@@ -33,7 +30,6 @@ const Result = () => {
 	const [category, setCategory] = useState("music");
 	const [musicGenre, setMusicGenre] = useState("");
 	const [movieGenre, setMovieGenre] = useState("");
-	// const history = useHistory();
 
 	function pickRandom(n, list) {
 		let all = list;
@@ -119,13 +115,21 @@ const Result = () => {
 			>
 				<Button
 					highlighted={category === "music"}
-					onClick={() => setCategory("music")}
+					onClick={() => {
+						setCategory("music");
+						setMovieGenre("");
+						setMusicGenre("");
+					}}
 				>
 					Music
 				</Button>
 				<Button
 					highlighted={category === "movie"}
-					onClick={() => setCategory("movie")}
+					onClick={() => {
+						setCategory("movie");
+						setMovieGenre("");
+						setMusicGenre("");
+					}}
 				>
 					Movie
 				</Button>
@@ -133,10 +137,10 @@ const Result = () => {
 			<h2 style={{ margin: 10 }}>Genres</h2>
 			<div
 				style={{
-					display: "flex",
+					// display: "flex",
 					// justifyContent: "center",
 					overflow: "scroll",
-					// width: "10rem",
+					height: 150,
 					paddingBottom: 10,
 					marginBottom: 20,
 				}}

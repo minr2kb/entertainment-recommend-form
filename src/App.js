@@ -37,12 +37,12 @@ function App() {
 								component={Home}
 							/>
 							<Route
-								path="/music_closed"
+								path="/music"
 								name="music"
 								component={Music}
 							/>
 							<Route
-								path="/movie_closed"
+								path="/movie"
 								name="movie"
 								component={Movie}
 							/>

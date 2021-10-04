@@ -2,6 +2,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import Select from "react-select";
 import { Card, Button, Input } from "../components/index";
 import { FiTrash2, FiPlusCircle } from "react-icons/fi";
+
 import { db } from "../../firebase";
 import {
 	setDoc,
@@ -14,6 +15,18 @@ import {
 } from "firebase/firestore";
 import { useHistory } from "react-router";
 const request = require("request");
+
+const defaultStyle = {
+	transition: `opacity 200ms ease-in-out`,
+	opacity: 0,
+};
+
+const transitionStyles = {
+	entering: { opacity: 1 },
+	entered: { opacity: 1 },
+	exiting: { opacity: 0 },
+	exited: { opacity: 0 },
+};
 
 const Music = () => {
 	const history = useHistory();
@@ -304,99 +317,106 @@ const Music = () => {
 					</div>
 				</Card>
 			))}
-			{editting ? (
-				<Card>
-					<h2
-						style={{
-							marginTop: 5,
-							textAlign: "center",
-						}}
-					>
-						Add Song
-					</h2>
-					<div>Title</div>
-					<Input
-						placeholder="ex) Paris in the rain"
-						onChange={e => {
-							setTitle(e.target.value);
-						}}
-						value={title}
-					/>
-					<div style={{ marginTop: 20 }}>Artist</div>
-					<Input
-						placeholder="ex) Lauv"
-						onChange={e => {
-							setArtist(e.target.value);
-						}}
-						value={artist}
-					/>
-					<div style={{ marginTop: 20, marginBottom: 10 }}>
-						Category
-					</div>
-					<Select
-						value={category}
-						options={options}
-						onChange={input => {
-							setCategory(input);
-						}}
-					/>
-					<div style={{ marginTop: 20, marginBottom: 10 }}>
-						Reason for recommending
-					</div>
-					<div style={{ display: "flex" }}>
-						<textarea
+			<Card
+				centered={!editting}
+				clickable={!editting}
+				onClick={
+					editting
+						? () => {}
+						: () => {
+								setEditting(true);
+						  }
+				}
+			>
+				{editting ? (
+					<>
+						<h2
 							style={{
-								width: "100%",
-								height: "5rem",
-								fontFamily: "arial",
-								fontSize: "1rem",
-								resize: "none",
-								borderColor: "rgb(193, 193, 193)",
-								borderRadius: 5,
-								outlineColor: "lightseagreen",
+								marginTop: 5,
+								textAlign: "center",
 							}}
-							value={reason}
-							onChange={e => {
-								setReason(e.target.value);
-							}}
-							placeholder={
-								"Must write 3 or more sentences to be chosen as winner!"
-							}
-						/>
-					</div>
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "space-around",
-							marginTop: 10,
-						}}
-					>
-						<Button onClick={() => clear()}>Cancel</Button>
-						<Button
-							highlighted
-							onClick={
-								adding
-									? () => console.log("wait!")
-									: () => addSong()
-							}
 						>
-							{adding ? "wait..." : "Add"}
-						</Button>
-					</div>
-				</Card>
-			) : (
-				<Card
-					centered={true}
-					clickable={true}
-					onClick={() => {
-						setEditting(true);
-					}}
-				>
-					<div>
-						<FiPlusCircle size={25} />
-					</div>
-				</Card>
-			)}
+							Add Song
+						</h2>
+						<div>Title</div>
+						<Input
+							placeholder="ex) Paris in the rain"
+							onChange={e => {
+								setTitle(e.target.value);
+							}}
+							value={title}
+						/>
+						<div style={{ marginTop: 20 }}>Artist</div>
+						<Input
+							placeholder="ex) Lauv"
+							onChange={e => {
+								setArtist(e.target.value);
+							}}
+							value={artist}
+						/>
+						<div style={{ marginTop: 20, marginBottom: 10 }}>
+							Category
+						</div>
+						<Select
+							value={category}
+							options={options}
+							onChange={input => {
+								setCategory(input);
+							}}
+						/>
+						<div style={{ marginTop: 20, marginBottom: 10 }}>
+							Reason for recommending
+						</div>
+						<div style={{ display: "flex" }}>
+							<textarea
+								style={{
+									width: "100%",
+									height: "5rem",
+									fontFamily: "arial",
+									fontSize: "1rem",
+									resize: "none",
+									borderColor: "rgb(193, 193, 193)",
+									borderRadius: 5,
+									outlineColor: "lightseagreen",
+								}}
+								value={reason}
+								onChange={e => {
+									setReason(e.target.value);
+								}}
+								placeholder={
+									"Must write 3 or more sentences to be chosen as winner!"
+								}
+							/>
+						</div>
+
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "space-around",
+								marginTop: 10,
+							}}
+						>
+							<Button onClick={() => clear()}>Cancel</Button>
+							<Button
+								highlighted
+								onClick={
+									adding
+										? () => console.log("wait!")
+										: () => addSong()
+								}
+							>
+								{adding ? "wait..." : "Add"}
+							</Button>
+						</div>
+					</>
+				) : (
+					<>
+						<div>
+							<FiPlusCircle size={25} />
+						</div>
+					</>
+				)}
+			</Card>
 			<div
 				style={{
 					display: editting ? "none" : "flex",
