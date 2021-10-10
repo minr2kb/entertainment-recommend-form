@@ -10,7 +10,7 @@ const Button = ({ children, onClick, highlighted }) => {
 				cursor: "pointer",
 				backgroundColor: highlighted ? "lightseagreen" : "",
 				color: highlighted ? "white" : "",
-				transition: "all 0.2s 0.08s ease-in-out",
+				transition: "all 0.1s 0s ease-in",
 			}}
 		>
 			{children}

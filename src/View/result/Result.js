@@ -32,10 +32,11 @@ const Result = () => {
 	const [movieGenre, setMovieGenre] = useState("");
 
 	function pickRandom(n, list) {
-		let all = list;
-		let picked = [];
-		for (let i = 0; i < n; i++) {
-			var num = Math.floor(Math.random() * all.length);
+		var all = list;
+		var picked = [];
+		var num;
+		for (let i = 0; i < (n > list.length ? list.length : n); i++) {
+			num = Math.floor(Math.random() * all.length);
 			picked.push(all[num]);
 			all = all.filter(elem => elem !== all[num]);
 		}
@@ -56,13 +57,16 @@ const Result = () => {
 					user.data().songs.forEach(elem => {
 						songList[elem.category] = [
 							...songList[elem.category],
-							elem.title,
+							elem,
 						];
 					});
 				});
 				setMusicList(list);
 				Object.keys(songList).forEach(elem => {
-					console.log(elem + ": " + pickRandom(3, songList[elem]));
+					console.log("* " + elem + " *");
+					pickRandom(3, songList[elem]).forEach(picked => {
+						console.log(picked.title + " - " + picked.artist);
+					});
 				});
 			}
 		);
@@ -82,13 +86,16 @@ const Result = () => {
 					user.data().movies.forEach(elem => {
 						movieList[elem.genre] = [
 							...movieList[elem.genre],
-							elem.title,
+							elem,
 						];
 					});
 				});
 				setMovieList(list);
 				Object.keys(movieList).forEach(elem => {
-					console.log(elem + ": " + pickRandom(3, movieList[elem]));
+					console.log("* " + elem + " *");
+					pickRandom(3, movieList[elem]).forEach(picked => {
+						console.log(picked.title + " (" + picked.year + ")");
+					});
 				});
 			}
 		);
