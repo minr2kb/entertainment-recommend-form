@@ -9,14 +9,43 @@ const Winner = () => {
 	const [showMusic, setShowMusic] = useState([]);
 	const [showMovie, setShowMovie] = useState([]);
 	const [winners, setWinners] = useState([]);
+	const [users, setUsers] = useState([]);
+	const picked = [
+		"111237704",
+		"112980362",
+		"113046081",
+		"113053391",
+		"111792919",
+		"113949353",
+		"113949609",
+		"111616798",
+		"114181929",
+		"114182885",
+		"114001669",
+		"114001368",
+		"112424893",
+		"114182469",
+		"@01437695",
+		"114747558",
+		"01397677",
+		"111850374",
+		"112466437",
+		"111672174",
+		"113044959",
+		"114673369",
+		"114666013",
+		"01402560",
+		"114000518",
+		"114183796",
+	];
 
 	// function countSentences(str) {
 	// 	return str.replace(/\w[.?!][\s|$]/g, "|").split("|").length;
 	// }
 
-	// function isRA(stuID) {
-	// 	return ["114009698", "114181105", "112980362"].includes(stuID);
-	// }
+	function isRA(stuID) {
+		return ["114009698", "114181105", "112980362"].includes(stuID);
+	}
 
 	function remove(list, target) {
 		return list.filter(elem => elem !== target);
@@ -25,34 +54,6 @@ const Winner = () => {
 	function pickWinners() {
 		if (winners.length === 0) {
 			// let participants = [];
-			let picked = [
-				"111237704",
-				"112980362 ",
-				"113046081",
-				"113053391",
-				"111792919",
-				"113949353",
-				"113949609",
-				"111616798",
-				"114181929",
-				"114182885",
-				"114001669",
-				"114001368",
-				"112424893",
-				"114182469",
-				"@01437695",
-				"114747558",
-				"01397677",
-				"111850374",
-				"112466437",
-				"111672174",
-				"113044959",
-				"114673369",
-				"114666013",
-				"01402560",
-				"114000518",
-				"114183796",
-			];
 			// Object.values(totalDict).forEach(user => {
 			// 	console.log(user.name);
 			// 	console.log(isRA(user.studentID));
@@ -81,7 +82,7 @@ const Winner = () => {
 
 	async function fetchDict() {
 		let dict = {};
-
+		let arr = [];
 		getDocs(query(collection(db, "music"), orderBy("time", "desc"))).then(
 			users => {
 				users.forEach(
@@ -98,7 +99,22 @@ const Winner = () => {
 								user.data()
 							))
 					);
+					// console.log(dict);
+					Object.values(dict).forEach(user =>
+						arr.push({
+							name: user.name,
+							studentID: user.studentID,
+							email: user.email,
+							contact: user.contact,
+							isRA: isRA(user.studentID),
+							isWinner: picked.includes(user.studentID),
+						})
+					);
+
+					let winnerList = arr.filter(user => user.isWinner);
 					setTotalDict(dict);
+					console.log(arr);
+					console.log(winnerList);
 				});
 			}
 		);
