@@ -1,10 +1,10 @@
 import React from "react";
-// import { useHistory } from "react-router";
+import { useHistory } from "react-router";
 import Card from "../components/Card";
-// import Button from "../components/Button";
+import Button from "../components/Button";
 
 const Home = () => {
-	// const history = useHistory();
+	const history = useHistory();
 	return (
 		<div style={{ maxWidth: 500, flex: 1 }}>
 			<header>
@@ -55,18 +55,36 @@ const Home = () => {
 							justifyContent: "space-around",
 						}}
 					>
-						{/* <Button onClick={() => history.push("/music")}>
+						<Button onClick={() => history.push("/music")}>
 							Music
 						</Button>
 						<Button onClick={() => history.push("/movie")}>
 							Movie
+						</Button>
+						{/* <Button onClick={() => history.push("/result")}>
+							Result
 						</Button> */}
-						<p>
-							<b>
-								Event is done! Thank you for your participation!
-							</b>
-						</p>
 					</div>
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "space-around",
+						}}
+					>
+						<Button onClick={() => history.push("/result")}>
+							Result
+						</Button>
+						<Button onClick={() => history.push("/winner")}>
+							Winner
+						</Button>
+					</div>
+					<p>
+						<b>
+							Event is done!
+							<br />
+							Thank you for your participation!
+						</b>
+					</p>
 				</div>
 			</Card>
 		</div>
